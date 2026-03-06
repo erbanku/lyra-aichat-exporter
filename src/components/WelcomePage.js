@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, MessageCircle, Download, Database, Info, Star, Brain, Clock, FolderTree, Moon, Sun, CheckCircle, Wrench, Sparkles, Package} from 'lucide-react';
+import { FileText, MessageCircle, Download, Database, FolderTree, Moon, Sun, CheckCircle, Package} from 'lucide-react';
 import { useI18n } from '../index.js';
 import LanguageSwitcher from '../components/LanguageSwitcher.js';
 import { ThemeUtils } from '../utils/themeManager.js';
@@ -105,11 +105,6 @@ const ScriptInstallGuide = () => {
   const { t } = useI18n();
   const [expanded, setExpanded] = useState(true);
   
-  // 跳转到油猴脚本安装页面
-  const goToScriptInstall = () => {
-    window.open('https://greasyfork.org/en/scripts/539579-lyra-s-exporter-fetch', '_blank');
-  };
-
   return (
     <div className="bg-white rounded-xl p-6 mb-8 shadow-md border border-gray-200 transition-all duration-300 hover:shadow-lg">
       <div 
@@ -283,7 +278,7 @@ const WelcomePage = ({ handleLoadClick, handleFolderClick }) => {
   
   // 模拟打字效果 - 使用国际化文本
   const [welcomeText, setWelcomeText] = useState("");
-  const [fullText, setFullText] = useState("");
+  const [, setFullText] = useState("");
   
   // 当语言改变时，重新设置打字效果
   useEffect(() => {

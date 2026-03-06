@@ -1,15 +1,12 @@
 // utils/exportManager.js
 import { StorageUtils } from '../App';
-import { DateTimeUtils, FileUtils } from './fileParser';
+import { DateTimeUtils } from './fileParser';
 import { generateFileCardUuid, generateConversationCardUuid, parseUuid, generateFileHash } from './data/uuidManager';
 import { extractChatData, detectBranches } from './fileParser';
-import { MarkManager } from './data/markManager';
 import { SortManager } from './data/sortManager';
 import { getRenameManager } from './renameManager';
 import {
-  escapeXml,
   formatAttachments as formatAttachmentsHelper,
-  wrapWithDetails,
   formatThinking as formatThinkingHelper,
   formatArtifact as formatArtifactHelper,
   formatTool as formatToolHelper,
@@ -803,6 +800,8 @@ export async function handleExport({
             console.error(`无法处理文件 ${file.name}:`, err);
           }
         }
+        break;
+      default:
         break;
     }
     

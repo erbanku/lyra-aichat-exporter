@@ -131,7 +131,7 @@ class BranchAnalyzer {
     const latestMessage = sortedMessages[sortedMessages.length - 1];
 
     // 分析分支结构
-    const { branchPoints, msgDict, parentChildren } = this.analyze(messages);
+    const { branchPoints } = this.analyze(messages);
 
     // 如果没有分支，返回所有消息
     if (branchPoints.size === 0) {
@@ -148,7 +148,9 @@ class BranchAnalyzer {
       messagePath.unshift(currentMsg);
 
       if (currentMsg.parent_uuid) {
-        currentMsg = messages.find(m => m.uuid === currentMsg.parent_uuid);
+        const parentUuid = currentMsg.parent_uuid;
+        // eslint-disable-next-line no-loop-func
+        currentMsg = messages.find(m => m.uuid === parentUuid);
       } else {
         break;
       }
@@ -426,6 +428,7 @@ export class BatchExportManager {
    */
   sanitizeFileName(fileName) {
     return fileName
+      // eslint-disable-next-line no-control-regex
       .replace(/[<>:"/\\|?*\x00-\x1F]/g, '_')
       .replace(/\s+/g, '_')
       .substring(0, 100);
@@ -436,9 +439,9 @@ export class BatchExportManager {
    */
   generateSummary(successful, failed) {
     const lines = [];
-    lines.push('=' .repeat(60));
+    lines.push('='.repeat(60));
     lines.push('批量导出摘要');
-    lines.push('=' .repeat(60));
+    lines.push('='.repeat(60));
     lines.push('');
     lines.push(`导出时间: ${DateTimeUtils.formatDateTime(new Date())}`);
     lines.push(`成功导出: ${successful.length} 个文件`);
@@ -447,7 +450,7 @@ export class BatchExportManager {
 
     if (successful.length > 0) {
       lines.push('成功导出的文件:');
-      lines.push('-' .repeat(60));
+      lines.push('-'.repeat(60));
       successful.forEach(({ fileName, mdFileName }) => {
         lines.push(`✓ ${fileName} -> ${mdFileName}`);
       });
@@ -456,7 +459,7 @@ export class BatchExportManager {
 
     if (failed.length > 0) {
       lines.push('导出失败的文件:');
-      lines.push('-' .repeat(60));
+      lines.push('-'.repeat(60));
       failed.forEach(({ fileName, error }) => {
         lines.push(`✗ ${fileName}`);
         lines.push(`  错误: ${error}`);
@@ -464,7 +467,7 @@ export class BatchExportManager {
       lines.push('');
     }
 
-    lines.push('=' .repeat(60));
+    lines.push('='.repeat(60));
     lines.push('');
     lines.push('说明:');
     lines.push('- 每个文件都已导出为包含最新对话分支的 Markdown 文件');

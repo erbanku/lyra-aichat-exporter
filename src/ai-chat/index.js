@@ -191,7 +191,7 @@ export function togglePanel() {
 // 默认导出
 // ============================================
 
-export default {
+const LyraAIChat = {
   // 组件
   FloatPanel: FloatPanelComponent,
   FloatPanelTrigger: FloatPanelTriggerComponent,
@@ -213,3 +213,4 @@ export default {
   closePanel,
   togglePanel
 }
+export default LyraAIChat

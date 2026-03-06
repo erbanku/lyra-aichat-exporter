@@ -37,7 +37,7 @@ const WhiteboardView = forwardRef(({
   onCanvasStateChange = null,
 }, ref) => {
   const { t } = useI18n();
-  const { addMessagesToContext } = useContextBridge();
+  useContextBridge();
 
   // ── Canvas state ──
   const [activeCanvasId, setActiveCanvasId] = useState(() => CanvasManager.ensureDefaultCanvas(t('whiteboard.canvas.defaultName') || 'Canvas 1'));
@@ -580,12 +580,6 @@ const WhiteboardView = forwardRef(({
     });
   }, [activeCanvasId, debouncedSave]);
 
-  // Reset view
-  const resetView = useCallback(() => {
-    setPan({ x: 60, y: 20 });
-    setScale(1.0);
-  }, []);
-
   // Jump to position (from minimap)
   const jumpTo = useCallback((cx, cy) => {
     const el = containerRef.current;
@@ -837,7 +831,7 @@ const WhiteboardView = forwardRef(({
                 <div className="message-detail-container">
                   <div className="whiteboard-detail-header">
                     <span className="whiteboard-detail-source">
-                      {selectedCardId && canvasData.cards[selectedCardId]?.sourceFileName || ''}
+                      {(selectedCardId && canvasData.cards[selectedCardId]?.sourceFileName) || ''}
                     </span>
                     <button className="whiteboard-detail-close" onClick={() => { setSelectedCardId(null); setPanelMode(null); }}>✕</button>
                   </div>
@@ -858,7 +852,7 @@ const WhiteboardView = forwardRef(({
                       />
                     ) : (
                       <div className="whiteboard-detail-unavailable" style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--text-tertiary)' }}>
-                        {selectedCardId && (canvasData.cards[selectedCardId]?.fullPreview || canvasData.cards[selectedCardId]?.preview) || '消息不可用'}
+                        {(selectedCardId && (canvasData.cards[selectedCardId]?.fullPreview || canvasData.cards[selectedCardId]?.preview)) || '消息不可用'}
                       </div>
                     )}
                   </div>

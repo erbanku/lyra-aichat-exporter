@@ -777,8 +777,7 @@ function Message({ message, onEdit, onDelete, onRetry, isLastUserMessage = false
  * AI 上下文完整信息面板
  */
 function AIContextPanel({ isOpen, onClose }) {
-  const { t } = useI18n()
-  const { activeContext, browsingPath } = useContextStore()
+  const { activeContext } = useContextStore()
 
   if (!isOpen) return null
 
@@ -1302,7 +1301,6 @@ export function FloatPanel() {
     close,
     minimize,
     restore,
-    toggleMinimize,
     togglePin,
     setPosition,
     setSize
@@ -1403,7 +1401,7 @@ export function FloatPanel() {
  */
 export function FloatPanelTrigger({ position = 'bottom-right' }) {
   const { t } = useI18n()
-  const { isOpen, open, close, toggle } = usePanelStore()
+  const { isOpen, toggle } = usePanelStore()
 
   return (
     <button
@@ -1418,7 +1416,7 @@ export function FloatPanelTrigger({ position = 'bottom-right' }) {
   )
 }
 
-export default {
+const AIChatComponents = {
   FloatPanel,
   FloatPanelTrigger,
   ChatPanel,
@@ -1427,3 +1425,4 @@ export default {
   ContextStatus,
   ContextDetail
 }
+export default AIChatComponents

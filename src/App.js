@@ -1,4 +1,4 @@
-﻿// App.js - 大幅简化版本
+// App.js - 大幅简化版本
 /* global chrome */
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import './styles/index.css';
@@ -209,6 +209,8 @@ const useFullExportCardFilter = (conversations = [], operatedUuids = new Set(), 
                 if (convDate > endDate) return false;
               }
               break;
+            default:
+              break;
           }
         } catch (error) {
           console.warn('日期解析失败:', conv.created_at);
@@ -218,7 +220,7 @@ const useFullExportCardFilter = (conversations = [], operatedUuids = new Set(), 
       return true;
     });
     // starredConversations 作为依赖触发器，当星标变化时重新计算筛选结果
-  }, [conversations, filters, operatedUuids, enabled, starManager, starredConversations]);
+  }, [conversations, filters, operatedUuids, enabled, starManager]);
 
   // 设置单个筛选器
   const setFilter = useCallback((key, value) => {
@@ -866,7 +868,7 @@ function App() {
     data: null
   });
   const [viewMode, setViewMode] = useState('conversations');
-  const [displayPreference, setDisplayPreference] = useState(() =>
+  const [, setDisplayPreference] = useState(() =>
     StorageManager.get('display-preference', 'timeline')
   );
   const [cardSortField, setCardSortField] = useState('created_at');
@@ -888,10 +890,10 @@ function App() {
   const [operatedFiles, setOperatedFiles] = useState(new Set());
   const [scrollPositions, setScrollPositions] = useState({});
   const [, setError] = useState(null); // eslint-disable-line no-unused-vars
-  const [sortVersion, setSortVersion] = useState(0);
-  const [markVersion, setMarkVersion] = useState(0);
+  const [, setSortVersion] = useState(0);
+  const [, setMarkVersion] = useState(0);
   const [canvasVersion, setCanvasVersion] = useState(0); // 画布导入版本号
-  const [renameVersion, setRenameVersion] = useState(0);
+  const [, setRenameVersion] = useState(0);
   const [starredConversations, setStarredConversations] = useState(new Map());
   const [currentBranchState, setCurrentBranchState] = useState({
     showAllBranches: false,
@@ -1086,7 +1088,7 @@ function App() {
 
   const rawConversations = useMemo(() =>
     DataProcessor.getRawConversations(viewMode, processedData, currentFileIndex, files, fileMetadata),
-    [viewMode, processedData, currentFileIndex, files, fileMetadata, renameVersion]
+    [viewMode, processedData, currentFileIndex, files, fileMetadata]
   );
 
   const {
@@ -1100,7 +1102,7 @@ function App() {
 
   const fileCards = useMemo(() =>
     DataProcessor.getFileCards(viewMode, processedData, files, currentFileIndex, fileMetadata, t),
-    [files, currentFileIndex, processedData, fileMetadata, viewMode, t, renameVersion]
+    [files, currentFileIndex, processedData, fileMetadata, viewMode, t]
   );
 
   const allCards = useMemo(() => {
@@ -1142,6 +1144,7 @@ function App() {
     } else {
       sortManagerRef.current = null;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentFileUuid]);
 
   useEffect(() => {
@@ -1162,7 +1165,7 @@ function App() {
       return sorted;
     }
     return timelineMessages;
-  }, [timelineMessages, viewMode, sortVersion]);
+  }, [timelineMessages, viewMode]);
 
   const displayedItems = useMemo(() => {
     if (!searchQuery) {
@@ -1177,11 +1180,11 @@ function App() {
       important: new Set(),
       deleted: new Set()
     };
-  }, [markVersion, currentFileUuid]);
+  }, []);
 
   const hasCustomSort = useMemo(() => {
     return sortManagerRef.current ? sortManagerRef.current.hasCustomSort() : false;
-  }, [sortVersion, currentFileUuid]);
+  }, []);
 
   const currentConversation = useMemo(() => {
     return DataProcessor.getCurrentConversation({
@@ -1193,7 +1196,7 @@ function App() {
       currentFileIndex,
       fileMetadata
     });
-  }, [viewMode, selectedFileIndex, selectedConversationUuid, processedData, files, currentFileIndex, fileMetadata, renameVersion]);
+  }, [viewMode, selectedFileIndex, selectedConversationUuid, processedData, files, currentFileIndex, fileMetadata]);
 
   const isFullExportConversationMode = viewMode === 'conversations';
 
@@ -1405,7 +1408,7 @@ function App() {
         setViewMode(targetView);
       }
     }
-  }, [currentFileIndex, fileActions, viewMode, currentFile, displayPreference]);
+  }, [currentFileIndex, fileActions, viewMode, currentFile]);
 
   const handleFileRemove = useCallback((fileIndexOrUuid) => {
     if (typeof fileIndexOrUuid === 'number') {
@@ -1654,7 +1657,7 @@ function App() {
       shouldUseStarSystem,
       currentConversation
     });
-  }, [viewMode, allCards, sortedMessages, timelineMessages, files, shouldUseStarSystem, currentConversation, processedData, currentFileIndex, markVersion]);
+  }, [viewMode, allCards, sortedMessages, timelineMessages, files, shouldUseStarSystem, currentConversation]);
 
   // ==================== 副作用 ====================
 

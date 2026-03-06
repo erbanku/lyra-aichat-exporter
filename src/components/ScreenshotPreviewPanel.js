@@ -1,6 +1,6 @@
 // components/ScreenshotPreviewPanel.js
 // 长截图预览编辑面板
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import EditableChatBubble from './EditableChatBubble';
 import { useI18n } from '../index.js';
 import { screenshotExportManager } from '../utils/export/screenshotExportManager';

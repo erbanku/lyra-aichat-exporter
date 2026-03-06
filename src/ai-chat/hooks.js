@@ -610,7 +610,7 @@ export function useAutoResize(maxHeight = 200) {
   return { textareaRef, resize }
 }
 
-export default {
+const AIChatHooks = {
   useContextStore,
   useChatStore,
   usePanelStore,
@@ -622,3 +622,4 @@ export default {
   useResizable,
   useAutoResize
 }
+export default AIChatHooks

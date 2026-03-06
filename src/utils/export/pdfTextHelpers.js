@@ -16,6 +16,7 @@ export function cleanCodeText(text) {
     let cleaned = text.normalize('NFC');
 
     // 2. 仅移除控制字符（保留换行符和制表符）
+    // eslint-disable-next-line no-control-regex
     cleaned = cleaned.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, '');
 
     // 3. 移除零宽字符
@@ -26,6 +27,7 @@ export function cleanCodeText(text) {
   } catch (error) {
     console.error('[PDF导出] 代码文本清理失败:', error);
     // 如果清理失败，返回简化处理的文本
+    // eslint-disable-next-line no-control-regex
     return text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
   }
 }
@@ -45,6 +47,7 @@ export function cleanText(text) {
     let cleaned = text.normalize('NFC');
 
     // 2. 移除控制字符和不可打印字符（保留换行符和制表符）
+    // eslint-disable-next-line no-control-regex
     cleaned = cleaned.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, '');
 
     // 3. 处理常见的Latin连字（ligatures），将其转换回普通字符组合
@@ -127,6 +130,7 @@ export function cleanText(text) {
   } catch (error) {
     console.error('[PDF导出] 文本清理失败:', error);
     // 如果清理失败，返回简化处理的文本
+    // eslint-disable-next-line no-control-regex
     return text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
   }
 }
@@ -255,7 +259,7 @@ export function parseInlineMarkdown(text) {
     { type: 'bold', regex: /__(.+?)__/g, recursive: true },
     { type: 'italic', regex: /\*([^*]+?)\*/g, recursive: true },
     { type: 'italic', regex: /_([^_]+?)_/g, recursive: true },
-    { type: 'latex-inline', regex: /\$([^\$\n]+?)\$/g, recursive: false },
+    { type: 'latex-inline', regex: /\$([^$\n]+?)\$/g, recursive: false },
     { type: 'latex-inline', regex: /\\\(([^)]*?)\\\)/g, recursive: false },
     { type: 'code', regex: /`([^`]+)`/g, recursive: false },
     { type: 'link', regex: /\[([^\]]+)\]\(([^)]+)\)/g, recursive: false }
@@ -354,7 +358,7 @@ export function applyCJKPunctuationRules(lines) {
   // 不能出现在行首的标点（避头）
   const noLineStart = /^[。，、；：！？）》」』】"',.;:!?)}\]]/;
   // 不能出现在行尾的标点（避尾）
-  const noLineEnd = /[（《「『【"'(\[{]$/;
+  const noLineEnd = /[（《「『【"'([{]$/;
 
   const result = [];
   let prevLine = lines[0];

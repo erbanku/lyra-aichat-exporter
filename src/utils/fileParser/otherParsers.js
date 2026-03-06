@@ -6,7 +6,6 @@ import {
   createMessage,
   DateTimeUtils,
   processGeminiImage,
-  extractThinkingAndContent,
   PARSER_CONFIG
 } from './helpers.js';
 

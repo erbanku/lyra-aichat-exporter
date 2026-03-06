@@ -2,9 +2,7 @@
 // 统一的复制功能管理模块
 
 import { StorageUtils } from '../App';
-import { TextUtils, formatFileSize } from './fileParser';
 import {
-  escapeXml,
   formatAttachments as formatAttachmentsHelper,
   formatThinking as formatThinkingHelper
 } from './formatHelpers.js';
