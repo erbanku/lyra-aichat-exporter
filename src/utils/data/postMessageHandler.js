@@ -23,7 +23,7 @@ export class PostMessageHandler {
       return;
     }
 
-    const { type, source, data } = event.data || {};
+    const { type, source } = event.data || {};
 
     // 处理握手
     if (type === 'LYRA_HANDSHAKE' && source === 'lyra-fetch-script') {

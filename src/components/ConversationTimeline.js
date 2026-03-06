@@ -232,8 +232,8 @@ const ConversationTimeline = ({
   // 滚动相关状态
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [scrollDirection, setScrollDirection] = useState('up');
-  const [forceUpdateCounter, setForceUpdateCounter] = useState(0); // 用于强制更新
+  const [, setScrollDirection] = useState('up');
+  const [, setForceUpdateCounter] = useState(0); // 用于强制更新
   const leftPanelRef = React.useRef(null);
   const mobileDetailBodyRef = React.useRef(null); // 移动端详情 body 引用
 
@@ -252,13 +252,13 @@ const ConversationTimeline = ({
 
   // ==================== 分支分析 ====================
 
-  const branchAnalysis = useMemo(() => analyzeBranches(messages), [messages, format, conversation]);
+  const branchAnalysis = useMemo(() => analyzeBranches(messages), [messages]);
 
   // ==================== 消息过滤和显示 ====================
 
   const displayMessages = useMemo(() =>
     filterDisplayMessages(messages, branchFilters, branchAnalysis, showAllBranches),
-    [messages, branchFilters, branchAnalysis, showAllBranches, forceUpdateCounter]
+    [messages, branchFilters, branchAnalysis, showAllBranches]
   );
 
   // ==================== 事件处理函数 ====================
@@ -271,9 +271,6 @@ const ConversationTimeline = ({
 
     setBranchFilters(prev => {
       const newFilters = new Map(prev);
-
-      // 获取之前的分支索引，用于记录分支切换
-      const previousBranchIndex = prev.get(branchPointUuid) ?? 0;
 
       // 即使是相同的分支索引,也要重新设置以触发更新
       newFilters.set(branchPointUuid, newBranchIndex);
@@ -328,6 +325,7 @@ const ConversationTimeline = ({
 
     // 强制触发消息列表更新
     setForceUpdateCounter(prev => prev + 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onBranchStateChange, recordBranchSwitchToContext]);
 
   const handleShowAllBranches = useCallback(() => {
@@ -508,7 +506,6 @@ const ConversationTimeline = ({
         // 查找包含该消息的分支
         let foundBranch = false;
         let targetBranchPoint = null;
-        let targetBranchIndex = null;
 
         for (const [branchPointUuid, branchData] of branchAnalysis.branchPoints) {
           for (let branchIndex = 0; branchIndex < branchData.branches.length; branchIndex++) {
@@ -517,7 +514,6 @@ const ConversationTimeline = ({
               // 找到包含目标消息的分支
               console.log(`[消息定位] 找到消息所在分支: ${branchPointUuid}, 分支索引: ${branchIndex}`);
               targetBranchPoint = branchPointUuid;
-              targetBranchIndex = branchIndex;
               foundBranch = true;
               break;
             }
@@ -539,7 +535,8 @@ const ConversationTimeline = ({
 
             // 找到父消息
             if (currentMsg.parent_uuid) {
-              currentMsg = messages.find(m => m.uuid === currentMsg.parent_uuid);
+              const parentUuid = currentMsg.parent_uuid;
+              currentMsg = messages.find(m => m.uuid === parentUuid);
             } else {
               break;
             }
@@ -694,6 +691,7 @@ const ConversationTimeline = ({
 
     window.addEventListener('scrollToMessage', handleScrollToMessage);
     return () => window.removeEventListener('scrollToMessage', handleScrollToMessage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages, displayMessages, branchAnalysis, handleBranchSwitch, handleShowAllBranches, showAllBranches]);
 
   // 同步外部分支状态
@@ -1114,6 +1112,7 @@ const ConversationTimeline = ({
       container.removeEventListener('touchmove', onTouchMove);
       container.removeEventListener('touchend', onTouchEnd);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showMobileDetail, selectedMessageIndex, displayMessages]);
 
   const handleCopyMessage = async (message, messageIndex) => {
@@ -1205,7 +1204,8 @@ const ConversationTimeline = ({
         messagePath.unshift(currentMsg);
 
         if (currentMsg.parent_uuid) {
-          currentMsg = messages.find(m => m.uuid === currentMsg.parent_uuid);
+          const parentUuid = currentMsg.parent_uuid;
+          currentMsg = messages.find(m => m.uuid === parentUuid);
         } else {
           break;
         }

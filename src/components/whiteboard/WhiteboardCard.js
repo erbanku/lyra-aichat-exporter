@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import PlatformIcon from '../PlatformIcon';
@@ -34,8 +34,6 @@ export const SIZE_PRESETS = {
   large:   { width: 480, height: 320, previewLen: 500, label: 'L' },
 };
 export const PRESET_KEYS = ['default', 'tall', 'wide', 'large'];
-
-const CARD_W = 280;
 
 const WhiteboardCard = ({
   card,

@@ -79,10 +79,6 @@ export const extractChatGPTData = (jsonData, fileName = '') => {
     // 用于缓存当前助手消息的思考内容和工具调用
     let pendingThinking = '';
     let pendingTools = [];
-    // 用于缓存assistant消息的推理概要内容（reasoning_recap）。
-    // reasoning_recap 通常只是表示"已思考X秒"等信息，不应该单独生成消息，否则会导致分支预览显示该概要内容。
-    // 我们在生成最终输出消息时，将其作为前缀添加到display_text中。
-    let pendingRecap = '';
 
     // 用于缓存由工具产生的附件。这些附件应在下一条助手最终输出消息上附加。
     // 部分工具（如 python_user_visible、web.run 等）会在 tool 消息的 metadata.attachments 中提供文件列表。
@@ -183,10 +179,9 @@ export const extractChatGPTData = (jsonData, fileName = '') => {
         }
         // === 用户消息 ===
         else if (role === 'user') {
-          // 新一轮用户消息开始，重置 pendingThinking、pendingTools、pendingRecap
+          // 新一轮用户消息开始，重置 pendingThinking、pendingTools
           pendingThinking = '';
           pendingTools = [];
-          pendingRecap = '';
 
           const uuid = msg.id || nodeId;
           let parentUuid = findNearestMessageUuid(node.parent);
@@ -242,7 +237,6 @@ export const extractChatGPTData = (jsonData, fileName = '') => {
           if (contentType === 'model_editable_context') {
             pendingThinking = '';
             pendingTools = [];
-            pendingRecap = '';
           }
           // 累积思考内容
           else if (contentType === 'thoughts' && content.thoughts) {
@@ -274,17 +268,9 @@ export const extractChatGPTData = (jsonData, fileName = '') => {
               // 忽略错误
             }
           }
-          // reasoning_recap：保存到 pendingRecap，不生成单独消息
+          // reasoning_recap：不生成单独消息
           else if (contentType === 'reasoning_recap') {
-            let recapText = '';
-            if (Array.isArray(content.parts)) {
-              recapText = content.parts.join('');
-            } else if (typeof content.content === 'string') {
-              recapText = content.content;
-            } else if (content.text) {
-              recapText = content.text;
-            }
-            pendingRecap = recapText.trim();
+            // recap text is intentionally discarded
           }
           // 其他：当成最终输出生成一条助手消息
           else {
@@ -386,7 +372,7 @@ export const extractChatGPTData = (jsonData, fileName = '') => {
                 entries.forEach(entry => {
                   const url = entry.url || '';
                   let dom = '';
-                  const match = typeof url === 'string' && url.match(/^(?:https?:\/\/)?([^\/]+)/i);
+                  const match = typeof url === 'string' && url.match(/^(?:https?:\/\/)?([^/]+)/i);
                   if (match) dom = match[1] || '';
                   if (!domainMap[dom]) domainMap[dom] = [];
                   domainMap[dom].push({

@@ -1,7 +1,7 @@
 // components/UnifiedCard.js
 // 统一的卡片组件 - 支持重命名功能
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PlatformIcon from './PlatformIcon';
 import FullExportCardFilter from './FullExportCardFilter';
 import { DateTimeUtils, FileUtils, PlatformUtils } from '../utils/fileParser';
@@ -336,7 +336,6 @@ export const CardGrid = ({
   onSortChange = null, // 排序变更回调
   className = ''
 }) => {
-  const { t } = useI18n();
 
   // 将 sort props 合并到 filterProps 中
   const mergedFilterProps = filterProps ? {

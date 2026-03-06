@@ -896,8 +896,6 @@ export class ContentRenderer {
         textWidth = this.safeGetTextWidth(text);
       }
 
-      const availableWidth = PDF_STYLES.PAGE_WIDTH - PDF_STYLES.MARGIN_RIGHT - currentX;
-
       // 检查是否需要换行
       if (currentX + textWidth > PDF_STYLES.PAGE_WIDTH - PDF_STYLES.MARGIN_RIGHT && currentLineSegments.length > 0) {
         this.checkPageBreak(fontSize);
@@ -1794,7 +1792,6 @@ export class ContentRenderer {
 
     // 渲染消息列表
     this.pdf.setFontSize(PDF_STYLES.FONT_SIZE_BODY);
-    const maxWidth = PDF_STYLES.PAGE_WIDTH - PDF_STYLES.MARGIN_LEFT - PDF_STYLES.MARGIN_RIGHT;
 
     this.manager.messageAnchors.forEach((anchor, idx) => {
       const message = messages[idx];

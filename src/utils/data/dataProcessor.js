@@ -118,7 +118,7 @@ export class DataProcessor {
    * 获取当前对话信息
    */
   static getCurrentConversation(params) {
-    const { viewMode, selectedFileIndex, selectedConversationUuid, processedData, files, currentFileIndex, fileMetadata, starActions } = params;
+    const { viewMode, selectedFileIndex, processedData, files, currentFileIndex, fileMetadata } = params;
     const renameManager = getRenameManager();
 
     // 支持 timeline 和 whiteboard 视图模式

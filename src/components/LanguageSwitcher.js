@@ -65,21 +65,6 @@ const LanguageSwitcher = ({
     }
   };
 
-  // 下拉菜单位置类名
-  const getDropdownPositionClass = () => {
-    switch (position) {
-      case 'bottom-left':
-        return 'top-full left-0 mt-2';
-      case 'top-right':
-        return 'bottom-full right-0 mb-2';
-      case 'top-left':
-        return 'bottom-full left-0 mb-2';
-      case 'bottom-right':
-      default:
-        return 'top-full right-0 mt-2';
-    }
-  };
-
   // 紧凑模式 - 只显示标志和下拉箭头
   if (variant === 'compact') {
     return (

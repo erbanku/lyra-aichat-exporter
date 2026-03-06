@@ -645,11 +645,11 @@ const SemanticSearchSection = ({
   const [isIndexing, setIsIndexing] = useState(false);
   const [isModelReady, setIsModelReady] = useState(false);
   const [progress, setProgress] = useState({ status: '', progress: 0, message: '' });
-  const [searchResults, setSearchResults] = useState([]);
+  const [, setSearchResults] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
 
   // Embedding 配置
-  const [embeddingConfig, setEmbeddingConfig] = useState(() => {
+  const [embeddingConfig] = useState(() => {
     return StorageManager.get('semantic-embedding-config', {
       provider: 'lmstudio',
       lmStudioUrl: 'http://localhost:1234',
@@ -673,7 +673,7 @@ const SemanticSearchSection = ({
     if (semanticManagerRef.current) {
       semanticManagerRef.current.configure(embeddingConfig);
     }
-  }, []);
+  }, [embeddingConfig]);
 
   // 监听文件变化
   useEffect(() => {
@@ -711,6 +711,7 @@ const SemanticSearchSection = ({
         clearTimeout(debounceTimerRef.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
   // 自动滚动
@@ -762,6 +763,7 @@ const SemanticSearchSection = ({
     } finally {
       setIsIndexing(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files, processedData, currentFileIndex, isIndexing, isLoading]);
 
   // 执行语义搜索

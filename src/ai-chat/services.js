@@ -771,8 +771,9 @@ export function registerBuiltinMCPs() {
   // })
 }
 
-export default {
+const AIChatServices = {
   chatService,
   mcpService,
   registerBuiltinMCPs
 }
+export default AIChatServices;

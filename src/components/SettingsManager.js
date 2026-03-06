@@ -593,12 +593,9 @@ const AISettings = ({ settings, onAIChatConfigChange, onEmbeddingConfigChange })
   const {
     servers,
     tools,
-    isLoading: mcpLoading,
     addServer: mcpAddServer,
     removeServer: mcpRemoveServer,
     toggleServer: mcpToggleServer,
-    refreshServers,
-    refreshTools
   } = useMCPService();
 
   const PROTOCOL_OPTIONS = [

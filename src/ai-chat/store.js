@@ -618,9 +618,10 @@ export const mcpActions = {
 }
 
 // 导出所有store
-export default {
+const AIChatStore = {
   context: { store: contextStore, actions: contextActions },
   chat: { store: chatStore, actions: chatActions },
   panel: { store: panelStore, actions: panelActions },
   mcp: { store: mcpStore, actions: mcpActions }
 }
+export default AIChatStore;

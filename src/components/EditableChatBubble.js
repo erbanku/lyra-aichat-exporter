@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import PlatformIcon from './PlatformIcon';
-import { PlatformUtils, DateTimeUtils } from '../utils/fileParser';
+import { DateTimeUtils } from '../utils/fileParser';
 import { useI18n } from '../index.js';
 
 const EditableChatBubble = ({
