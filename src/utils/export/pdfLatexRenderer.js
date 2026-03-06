@@ -685,7 +685,7 @@ export class LaTeXRenderer {
   hasComplexStructure(latex) {
     const complexPatterns = [
       /\\frac\{/,           // 分数
-      /\\sqrt[[{]/,       // 根号
+      /\\sqrt(?:\[|\{)/,  // 根号
       /\\begin\{/,          // 环境（如矩阵、cases）
       /\\xleftrightarrow/,  // 带上标的箭头
       /\\xrightarrow/,      // 带上标的右箭头

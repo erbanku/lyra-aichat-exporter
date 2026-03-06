@@ -149,7 +149,6 @@ class BranchAnalyzer {
 
       if (currentMsg.parent_uuid) {
         const parentUuid = currentMsg.parent_uuid;
-        // eslint-disable-next-line no-loop-func
         currentMsg = messages.find(m => m.uuid === parentUuid);
       } else {
         break;
