@@ -776,4 +776,4 @@ const AIChatServices = {
   mcpService,
   registerBuiltinMCPs
 }
-export default AIChatServices
+export default AIChatServices;

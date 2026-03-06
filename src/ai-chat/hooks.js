@@ -622,4 +622,4 @@ const AIChatHooks = {
   useResizable,
   useAutoResize
 }
-export default AIChatHooks
+export default AIChatHooks;

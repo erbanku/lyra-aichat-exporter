@@ -1425,4 +1425,4 @@ const AIChatComponents = {
   ContextStatus,
   ContextDetail
 }
-export default AIChatComponents
+export default AIChatComponents;

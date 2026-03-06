@@ -213,4 +213,4 @@ const LyraAIChat = {
   closePanel,
   togglePanel
 }
-export default LyraAIChat
+export default LyraAIChat;

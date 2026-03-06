@@ -624,4 +624,4 @@ const AIChatStore = {
   panel: { store: panelStore, actions: panelActions },
   mcp: { store: mcpStore, actions: mcpActions }
 }
-export default AIChatStore
+export default AIChatStore;

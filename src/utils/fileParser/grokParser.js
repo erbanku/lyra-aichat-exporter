@@ -68,7 +68,7 @@ export const extractGrokData = (jsonData) => {
         (match, cardId) => {
           const citation = citationMap.get(cardId);
           if (citation) {
-            const escapedTitle = citation.title.replace(/([[\]])/g, '\\$1');
+            const escapedTitle = citation.title.replace(/\\/g, '\\\\').replace(/([[\]])/g, '\\$1');
             return `[${escapedTitle}](${citation.url})`;
           }
           return '';
